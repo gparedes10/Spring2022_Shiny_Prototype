@@ -44,14 +44,20 @@ ui <- fluidPage(
             #----------------------------------------------
             #Drop-down Menu for Crime Options
             #----------------------------------------------
-            
+            selectInput(inputId = "crime_choice", 
+                        label = "Choose a type of Crime",
+                        "Names",
+                        multiple = TRUE),
             
             
             
             #----------------------------------------------
             #Drop-down Menu for Neighborhood options
             #----------------------------------------------
-            
+            selectInput(inputId = "neighborhood_choice",
+                        label = "Choose a Neighboor",
+                        "Names",
+                        multiple = TRUE),
             
             
             
@@ -101,19 +107,31 @@ ui <- fluidPage(
 ################################################################################
 # Define server logic
 ################################################################################
-server <- function(input, output) {
+server <- function(input, output, session) {
 
     #----------------------------------------------
     #Reactive Data
     #----------------------------------------------
-    
+    data <- reactive({
+        req(input$crime_choice, input$neighborhood_choice)
+        
+        filtered_data <- sr_311Data %>%
+            filter(srtype %in% input$crime_choice) %>%
+            filter(neighborhood %in% input$neighborhood_choice) #%>%
+            #filter(createddate >= input$daterange[1] & createddate <= input$daterange[2])
+        
+    })
     
     
     
     #----------------------------------------------
     #Drop-down Menus
     #----------------------------------------------
+    observe({
+        updateSelectInput(session, "crime_choice", choices = sort(unique(crime_Data$Description)))
+        updateSelectInput(session, "neighborhood_choice", choices = sort(unique(crime_Data$Neighborhood)))
     
+    })
     
     
     
