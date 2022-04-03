@@ -20,6 +20,8 @@ crime_Data <- select(crime_Data, c("CrimeDateTime",
 
 crime_Data$CrimeDateTime <- date(crime_Data$CrimeDateTime) #Change Date Format
 
+neighborhoods <- st_read("Neighborhoods.geojson") #Read Neighborhood File
+
 #----------------------------------------------
 #Map Labels for Neighborhood Names
 #----------------------------------------------
