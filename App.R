@@ -74,10 +74,11 @@ ui <- fluidPage(
             #----------------------------------------------
             dateRangeInput(inputId = "date_range_selection",
                            label = "Select a Year",
-                           start = "1963",
-                           end = "2022",)
+                           start = "1963-01-01",
+                           end = "2022-01-01",
+                           min = "1963-01-01",
+                           max = "2022-04-01")
             
-        )
             
         ), #End of Side Panel
         
@@ -111,7 +112,7 @@ ui <- fluidPage(
             
             
         )#End of Main Panel
-    )
+    ))
 
 
 
