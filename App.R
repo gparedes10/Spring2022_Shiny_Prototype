@@ -85,14 +85,13 @@ ui <- fluidPage(
         #Application Main Panel/Area
         mainPanel(
             
-            #----------------------------------------------
-            #Map
-            #----------------------------------------------
-            h1("Crime Map"),
-            leafletOutput("crime_map", width = "90%", height = "600px"),
+            tabsetPanel(
+                tabPanel("Map", h1("Crime Map"), leafletOutput("crime_map", width = "90%", height = "600px")),
+                tabPanel("Table", tableOutput("crimeTable"))
+                
+            )
             
-            
-            
+      
             #----------------------------------------------
             #Total Crimes Per Neighborhood
             #----------------------------------------------
@@ -102,13 +101,8 @@ ui <- fluidPage(
             #----------------------------------------------
             #Crimes Over time
             #----------------------------------------------
-            
-            
+           
 
-            #----------------------------------------------
-            #Crimes per Neighborhood Table
-            #----------------------------------------------
-            tableOutput("crimeTable")
             
             
         )#End of Main Panel
