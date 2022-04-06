@@ -89,7 +89,7 @@ ui <- fluidPage(
             #Map
             #----------------------------------------------
             h1("Crime Map"),
-            leafletOutput("crime_map", width = "90%", height = "600px")
+            leafletOutput("crime_map", width = "90%", height = "600px"),
             
             
             
@@ -108,7 +108,7 @@ ui <- fluidPage(
             #----------------------------------------------
             #Crimes per Neighborhood Table
             #----------------------------------------------
-            
+            tableOutput("crimeTable")
             
             
         )#End of Main Panel
@@ -130,8 +130,8 @@ server <- function(input, output, session) {
         
         filtered_data <- crime_Data %>%
             filter(Description %in% input$crime_choice) %>%
-            filter(Neighborhood %in% input$neighborhood_choice) #%>%
-            #filter(createddate >= input$daterange[1] & createddate <= input$daterange[2])
+            filter(Neighborhood %in% input$neighborhood_choice) %>%
+            filter(CrimeDateTime >= input$date_range_selection[1] & CrimeDateTime <= input$date_range_selection[2])
         
     })
     
@@ -215,7 +215,12 @@ server <- function(input, output, session) {
     #----------------------------------------------
     #Crimes Table
     #----------------------------------------------
-    
+    output$crimeTable <- renderTable(
+        as.data.frame.matrix(table(data()$Description, data()$Neighborhood)), 
+        striped=TRUE, 
+        bordered = TRUE, 
+        rownames = TRUE
+    )
     
     
     
