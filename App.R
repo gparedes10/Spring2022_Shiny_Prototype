@@ -72,8 +72,12 @@ ui <- fluidPage(
             #----------------------------------------------
             #Date range (years) menu
             #----------------------------------------------
+            dateRangeInput(inputId = "date_range_selection",
+                           label = "Select a Year",
+                           start = "1963",
+                           end = "2022",)
             
-            
+        )
             
         ), #End of Side Panel
         
@@ -99,8 +103,7 @@ ui <- fluidPage(
             #----------------------------------------------
             
             
-            #hjxgckjzcxgzkjgkxcjzxczkcxj TEST
-            
+
             #----------------------------------------------
             #Crimes per Neighborhood Table
             #----------------------------------------------
@@ -109,7 +112,7 @@ ui <- fluidPage(
             
         )#End of Main Panel
     )
-)
+
 
 
 
