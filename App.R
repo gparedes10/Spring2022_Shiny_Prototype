@@ -200,23 +200,23 @@ server <- function(input, output, session) {
     #----------------------------------------------
     #----------------------------------------------
     ----------------------------------------------
-     # output$totalNeighborhoodCrimesTable <- renderTable(
-        #as.data.frame.matrix(table(data()$Description, data()$Neighborhood, data()$CrimeDateTime)), 
-       # striped=TRUE, 
-        #bordered = TRUE, 
-       # rownames = TRUE
- #     )
+      output$totalNeighborhoodCrimesTable <- renderTable(
+      as.data.frame.matrix(table(data()$Description, data()$Neighborhood, data()$CrimeDateTime)), 
+      striped=TRUE, 
+      bordered = TRUE, 
+      rownames = TRUE
+   )
     
     
     #----------------------------------------------
     #Crimes over Time Graph
     #----------------------------------------------
-    #output$totalCrimesOverTimeTable <- renderTable(
-     # as.data.frame.matrix(table(data()$Description, data()$Neighborhood, data()$CrimeDateTime)), 
-      #striped=TRUE, 
-      #bordered = TRUE, 
-      #rownames = TRUE
-   # )
+    output$totalCrimesOverTimeTable <- renderTable(
+    as.data.frame.matrix(table(data()$Description, data()$Neighborhood, data()$CrimeDateTime)), 
+    striped=TRUE, 
+    bordered = TRUE, 
+    rownames = TRUE
+    )
     
     
     #----------------------------------------------
