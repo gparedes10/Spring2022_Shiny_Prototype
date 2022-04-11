@@ -87,21 +87,24 @@ ui <- fluidPage(
             
             tabsetPanel(
                 tabPanel("Map", h1("Crime Map"), leafletOutput("crime_map", width = "90%", height = "600px")),
-                tabPanel("Table", tableOutput("crimeTable"))
+                tabPanel("Table", tableOutput("crimeTable")),
                 
-            )
+            
             
       
             #----------------------------------------------
             #Total Crimes Per Neighborhood
             #----------------------------------------------
             
+            tabPanel("Total Crimes", tableOutput("totalNeighborhoodCrimesTable")),
+            
             
             
             #----------------------------------------------
             #Crimes Over time
             #----------------------------------------------
-           
+            tabPanel("Total Crimes Over Time", tableOutput("totalCrimesOverTimeTable")),
+        )
 
             
             
@@ -195,15 +198,25 @@ server <- function(input, output, session) {
     #----------------------------------------------
     #Total Crimes Per Neighborhood Graph
     #----------------------------------------------
-    
-    
+    #----------------------------------------------
+    ----------------------------------------------
+     # output$totalNeighborhoodCrimesTable <- renderTable(
+        #as.data.frame.matrix(table(data()$Description, data()$Neighborhood, data()$CrimeDateTime)), 
+       # striped=TRUE, 
+        #bordered = TRUE, 
+       # rownames = TRUE
+ #     )
     
     
     #----------------------------------------------
     #Crimes over Time Graph
     #----------------------------------------------
-    
-    
+    #output$totalCrimesOverTimeTable <- renderTable(
+     # as.data.frame.matrix(table(data()$Description, data()$Neighborhood, data()$CrimeDateTime)), 
+      #striped=TRUE, 
+      #bordered = TRUE, 
+      #rownames = TRUE
+   # )
     
     
     #----------------------------------------------
