@@ -86,24 +86,52 @@ ui <- fluidPage(
         mainPanel(
             
             tabsetPanel(
-                tabPanel("Map", h1("Crime Map"), leafletOutput("crime_map", width = "90%", height = "600px")),
-                tabPanel("Table", tableOutput("crimeTable")),
+                tabPanel("Map", h1("Crime Map"), 
+                         leafletOutput("crime_map", 
+                         width = "90%", 
+                         height = "600px")),
+                
+                
+                tabPanel("Graphs",
+                         
+                         #----------------------------------------------
+                         #Crimes Per Neighborhood
+                         #----------------------------------------------
+                         h2("Total Crimes Per neighborhood"),
+                         plotlyOutput("total_crimes"),
+                         
+                         #----------------------------------------------
+                         #Crimes Over time
+                         #----------------------------------------------
+                         h2("Crimes Over Time")
+                         
+                         
+                         ),
+                
+                
+                tabPanel("Table", 
+                         #----------------------------------------------
+                         #Crimes Per Neighborhood
+                         #----------------------------------------------
+                         h2("Crimes per Neighborhood"),
+                         tableOutput("crimeTable"),
+                         
+                         #----------------------------------------------
+                         #Crimes Over Time
+                         #----------------------------------------------
+                         h2("Total Crimes Over Time"),
+                         tableOutput("totalCrimesOverTimeTable")
+                         )
                 
             
             
-      
-            #----------------------------------------------
-            #Total Crimes Per Neighborhood
-            #----------------------------------------------
-            
-            tabPanel("Total Crimes", tableOutput("totalNeighborhoodCrimesTable")),
+            #total crimes table
+            #tabPanel("Total Crimes", tableOutput("totalNeighborhoodCrimesTable")),
             
             
             
-            #----------------------------------------------
-            #Crimes Over time
-            #----------------------------------------------
-            tabPanel("Total Crimes Over Time", tableOutput("totalCrimesOverTimeTable")),
+            #total crimes over time table
+            #tabPanel("Total Crimes Over Time", tableOutput("totalCrimesOverTimeTable")),
         )
 
             
@@ -196,27 +224,16 @@ server <- function(input, output, session) {
     })
     
     #----------------------------------------------
-    #Total Crimes Per Neighborhood Graph
+    #Crimes Per Neighborhood Graph
     #----------------------------------------------
-    #----------------------------------------------
-    ----------------------------------------------
-      output$totalNeighborhoodCrimesTable <- renderTable(
-      as.data.frame.matrix(table(data()$Description, data()$Neighborhood, data()$CrimeDateTime)), 
-      striped=TRUE, 
-      bordered = TRUE, 
-      rownames = TRUE
-   )
+
+    output$total_crimes <- renderPlotly({
+      totalSR <- ggplot(data(), aes(x = Description, fill = Neighborhood))
+      totalSR + geom_bar(position = "dodge") +
+        xlab("Crime Type") +
+        ylab("Crimes per Neighborhood")
+    })
     
-    
-    #----------------------------------------------
-    #Crimes over Time Graph
-    #----------------------------------------------
-    output$totalCrimesOverTimeTable <- renderTable(
-    as.data.frame.matrix(table(data()$Description, data()$Neighborhood, data()$CrimeDateTime)), 
-    striped=TRUE, 
-    bordered = TRUE, 
-    rownames = TRUE
-    )
     
     
     #----------------------------------------------
@@ -228,6 +245,27 @@ server <- function(input, output, session) {
         bordered = TRUE, 
         rownames = TRUE
     )
+    
+    #----------------------------------------------
+    #Crimes over Time Table
+    #----------------------------------------------
+    output$totalCrimesOverTimeTable <- renderTable(
+    as.data.frame.matrix(table(data()$Description, data()$CrimeDateTime)),
+    striped=TRUE,
+    bordered = TRUE,
+    rownames = TRUE
+    )
+    
+    
+    #----------------------------------------------
+    #Crimes Per Neighborhood Table
+    #----------------------------------------------
+    #    output$totalNeighborhoodCrimesTable <- renderTable(
+    #    as.data.frame.matrix(table(data()$Description,data()$CrimeDateTime)), # data()$Neighborhood, 
+    #    striped=TRUE,
+    #    bordered = TRUE,
+    #    rownames = TRUE
+    # )
     
     
     
