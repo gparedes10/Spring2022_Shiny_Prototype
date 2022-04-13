@@ -11,14 +11,18 @@ library(lubridate) #date formatting
 #----------------------------------------------
 #Data Call/Clean
 #----------------------------------------------
-crime_Data <- read.csv("Part1_Crime_data.csv") #Read original dataset
+crime_Data <- read.csv("Part1_Crime_data.csv", stringsAsFactors = FALSE) #Read original dataset
 crime_Data <- select(crime_Data, c("CrimeDateTime",
                                    "Description",
                                    "Neighborhood",
                                    "Latitude",
                                    "Longitude"))
 
-crime_Data$CrimeDateTime <- date(crime_Data$CrimeDateTime) #Change Date Format
+crime <- subset(crime_Data,crime_Data$Latitude>0) #Remove crimes that do not have spatial coordinates
+crime$CrimeDateTime <- date(crime$CrimeDateTime) #Convert crime timestamp to date
+crime$year <- year(crime$CrimeDate)
+crime$month <- month(crime$CrimeDate)
+
 
 neighborhoods <- st_read("Neighborhoods.geojson") #Read Neighborhood File
 
@@ -256,6 +260,11 @@ server <- function(input, output, session) {
     rownames = TRUE
     )
     
+    data() %>%
+      group_by(Year=year(CrimeDateTime), Month=month(CrimeDateTime,label = T)) %>%
+      summarise(TotalCrimes=sum(Description,na.rm=T))
+    
+
     
     #----------------------------------------------
     #Crimes Per Neighborhood Table
