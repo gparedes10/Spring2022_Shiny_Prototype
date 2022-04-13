@@ -107,8 +107,8 @@ ui <- fluidPage(
                          #----------------------------------------------
                          #Crimes Over time
                          #----------------------------------------------
-                         h2("Crimes Over Time")
-                         
+                         h2("Crimes Over Time"),
+                         plotlyOutput("crimes_over_time")
                          
                          ),
                 
@@ -235,7 +235,18 @@ server <- function(input, output, session) {
         ylab("Crimes per Neighborhood")
     })
     
-    
+    #----------------------------------------------
+    #Crimes over Time Graph
+    #----------------------------------------------    
+    output$crimes_over_time <- renderPlotly({
+      graph <- ggplot(data(), aes(CrimeDateTime, color = Description)) #Decide what time to use for this graph
+      graph + geom_freqpoly() +
+        xlab("Date") +
+        ylab("Crime Type") +
+        labs(
+          title = " Total Crimes over per Month"
+        )
+    })
     
     #----------------------------------------------
     #Crimes Table
