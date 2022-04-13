@@ -18,10 +18,10 @@ crime_Data <- select(crime_Data, c("CrimeDateTime",
                                    "Latitude",
                                    "Longitude"))
 
-crime <- subset(crime_Data,crime_Data$Latitude>0) #Remove crimes that do not have spatial coordinates
-crime$CrimeDateTime <- date(crime$CrimeDateTime) #Convert crime timestamp to date
-crime$year <- year(crime$CrimeDate)
-crime$month <- month(crime$CrimeDate)
+crime_Data <- subset(crime_Data,crime_Data$Latitude>0) #Remove crimes that do not have spatial coordinates
+crime_Data$CrimeDateTime <- date(crime_Data$CrimeDateTime) #Convert crime timestamp to date
+crime_Data$year <- year(crime_Data$CrimeDate)
+crime_Data$month <- month(crime_Data$CrimeDate)
 
 
 neighborhoods <- st_read("Neighborhoods.geojson") #Read Neighborhood File
@@ -121,16 +121,13 @@ ui <- fluidPage(
                          tableOutput("crimeTable"),
                          
                          #----------------------------------------------
-                         #Crimes Over Time
+                         #Total Crimes Over Time
                          #----------------------------------------------
                          h2("Total Crimes Over Time"),
                          tableOutput("totalCrimesOverTimeTable")
                          )
                 
             
-            
-            #total crimes table
-            #tabPanel("Total Crimes", tableOutput("totalNeighborhoodCrimesTable")),
             
             
             
@@ -253,17 +250,13 @@ server <- function(input, output, session) {
     #----------------------------------------------
     #Crimes over Time Table
     #----------------------------------------------
+  
     output$totalCrimesOverTimeTable <- renderTable(
-    as.data.frame.matrix(table(data()$Description, data()$CrimeDateTime)),
+    as.data.frame.matrix(table(data()$Description, data()$month)),
     striped=TRUE,
     bordered = TRUE,
     rownames = TRUE
     )
-    
-    data() %>%
-      group_by(Year=year(CrimeDateTime), Month=month(CrimeDateTime,label = T)) %>%
-      summarise(TotalCrimes=sum(Description,na.rm=T))
-    
 
     
     #----------------------------------------------
